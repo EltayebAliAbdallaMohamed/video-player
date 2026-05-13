@@ -9,6 +9,14 @@
   --danger-dark: #f33;
   --text-dark: #222;
   --text-muted: #555;
+
+  --radius: 12px;
+  --gap: 1rem;
+}
+
+/* Better tap targets on mobile */
+button {
+  min-height: 44px;
 }
 
 * {
@@ -25,14 +33,24 @@ body {
   align-items: center;
   min-height: 100vh;
   line-height: 1.5;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+  padding: 1rem 0.75rem calc(1rem + env(safe-area-inset-bottom));
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  text-align: center;
 }
 
 /* Main content card */
 #content {
   background: var(--card-bg);
-  border-radius: 12px;
+  border-radius: var(--radius);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  margin: 2rem auto;
+  margin: 2rem auto 1.25rem;
   padding: 2rem 2.5rem;
   width: 90%;
   max-width: 800px;
@@ -45,12 +63,15 @@ video {
   height: auto;
   border-radius: 10px;
   margin-bottom: 1.5rem;
+  background: #000;
+  display: block;
 }
 
 /* Headings */
 h2 {
   font-size: 1.6rem;
   color: var(--text-dark);
+  margin: 0 0 0.5rem;
 }
 
 h3 {
@@ -93,10 +114,14 @@ button:hover {
   margin-left: 10px;
   cursor: pointer;
   font-size: 1.1rem;
+  padding: 0;
+  min-height: unset;
+  transform: none;
 }
 
 .delete-btn:hover {
   color: var(--danger-dark);
+  transform: none;
 }
 
 /* Controls and counter */
@@ -105,15 +130,22 @@ button:hover {
   justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
-  margin: 1.5rem 0;
+  margin: 1.5rem 0 0.75rem;
+  width: 100%;
+  padding: 0 0.75rem;
+  max-width: 800px;
 }
 
 .video-counter {
   font-weight: 600;
   color: var(--text-muted);
   background: #f9fafb;
-  padding: 0.4rem 0.8rem;
+  padding: 0.45rem 0.85rem;
   border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
 }
 
 /* Search bar */
@@ -124,6 +156,9 @@ button:hover {
   gap: 0.6rem;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
+  width: 100%;
+  padding: 0 0.75rem;
+  max-width: 800px;
 }
 
 .search-control input {
@@ -132,6 +167,7 @@ button:hover {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
+  min-height: 44px;
 }
 
 .search-control input:focus {
@@ -155,6 +191,9 @@ button:hover {
   gap: 0.6rem;
   margin-bottom: 2.5rem;
   flex-wrap: wrap;
+  width: 100%;
+  padding: 0 0.75rem;
+  max-width: 800px;
 }
 
 .add-question input {
@@ -163,6 +202,7 @@ button:hover {
   border-radius: 6px;
   width: 260px;
   font-size: 1rem;
+  min-height: 44px;
 }
 
 .add-question button {
@@ -173,58 +213,127 @@ button:hover {
   background-color: var(--success-dark);
 }
 
-/* Responsive adjustments */
+/* ===== Responsive adjustments (mobile-first improvements) ===== */
+
+/* Tablets & down */
 @media (max-width: 768px) {
   #content {
-    width: 94%;
-    padding: 1.25rem;
+    width: min(94vw, 800px);
+    padding: 1.25rem 1rem;
+    margin: 1rem auto 1rem;
+    border-radius: 12px;
   }
 
   h2 {
-    font-size: 1.4rem;
+    font-size: clamp(1.15rem, 3.5vw, 1.45rem);
+    line-height: 1.25;
+    margin-top: 0;
   }
 
   h3 {
-    font-size: 1.1rem;
+    font-size: clamp(1.05rem, 3.2vw, 1.2rem);
+    line-height: 1.25;
   }
 
-  .add-question input,
-  .search-control input {
-    width: 85%;
+  video {
+    margin-bottom: 1rem;
+    border-radius: 10px;
   }
 
+  .controls {
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .video-counter {
+    flex: 1;
+    text-align: center;
+    min-width: 0;
+    width: auto;
+  }
+
+  /* Controls buttons should share space nicely */
   .controls button {
-    width: 45%;
+    flex: 1;
+    width: auto;
+    padding: 0.7rem 0.8rem;
+  }
+
+  .search-control,
+  .add-question {
+    margin-bottom: 1.25rem;
+    width: 100%;
+  }
+
+  /* Inputs fill available space */
+  .search-control input,
+  .add-question input {
+    width: 100%;
+    max-width: 320px;
+    flex: 1;
+  }
+
+  .search-control button,
+  .add-question button {
+    flex: 0 0 auto;
+    padding: 0.7rem 1rem;
+  }
+
+  ul {
+    padding-left: 1.2rem;
+    max-width: 100%;
+  }
+
+  .delete-btn {
+    padding: 0.35rem 0.6rem;
   }
 }
 
+/* Phones */
 @media (max-width: 480px) {
   #content {
     box-shadow: none;
     border-radius: 0;
     width: 100%;
     margin: 0;
-    padding: 1rem;
+    padding: 0.95rem 0.85rem calc(1rem + env(safe-area-inset-bottom));
   }
 
-  h2 {
-    font-size: 1.2rem;
-  }
-
+  /* Stack controls vertically */
   .controls {
     flex-direction: column;
     align-items: stretch;
+    gap: 0.6rem;
+    padding: 0 0.75rem;
   }
 
   .controls button,
-  .add-question button,
-  .add-question input,
-  .search-control input,
-  .search-control button {
+  .controls .video-counter {
     width: 100%;
+    flex: unset;
+  }
+
+  /* Stack search and add question */
+  .search-control,
+  .add-question {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .search-control input,
+  .search-control button,
+  .add-question input,
+  .add-question button {
+    width: 100%;
+    max-width: none;
+  }
+
+  video {
+    margin-bottom: 0.8rem;
   }
 
   ul {
-    padding-left: 1.2rem;
+    padding-left: 1rem;
   }
 }
